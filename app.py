@@ -12,8 +12,7 @@ with st.sidebar:
     name = st.text_input("Collection name", value="default")
     backend = st.selectbox("Embedding backend", ["local", "openai"], index=0)
     
-    # --- CHANGE STARTS HERE ---
-    # Conditionally show the API key input field
+   
     openai_api_key = ""
     if backend == "openai":
         openai_api_key = st.text_input(
@@ -24,12 +23,12 @@ with st.sidebar:
         )
 
     if st.button("Build / Update Index", type="primary"):
-        # Pass the API key to the build_index function
+       
         with st.status("Indexing…", expanded=True) as status:
             info = build_index(src, name, backend, api_key=openai_api_key)
             st.write(info)
             status.update(label="Index ready", state="complete")
-    # --- CHANGE ENDS HERE ---
+   
 
 st.divider()
 
