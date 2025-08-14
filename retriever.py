@@ -4,19 +4,10 @@ from rapidfuzz import fuzz
 
 
 class HybridRetriever:
-    """
-    A retriever that combines dense vector search results from ChromaDB
-    with a fuzzy title matching score to produce a hybrid ranking.
-    """
+   
 
     def __init__(self, collection_name: str, index_path: str = ".data/index"):
-        """
-        Initialize the retriever with a ChromaDB persistent collection.
-
-        Args:
-            collection_name (str): Name of the collection in ChromaDB.
-            index_path (str): Path where ChromaDB will store index data.
-        """
+       
         self.client = chromadb.PersistentClient(path=index_path)
 
         try:
@@ -32,18 +23,7 @@ class HybridRetriever:
         dense_weight: float = 0.7,
         title_weight: float = 0.3
     ) -> List[Dict[str, Any]]:
-        """
-        Perform a hybrid search.
-
-        Args:
-            q (str): The query string.
-            k (int): Number of results to return.
-            dense_weight (float): Weight for dense embedding score.
-            title_weight (float): Weight for fuzzy title score.
-
-        Returns:
-            List[Dict[str, Any]]: A list of search result metadata with scores.
-        """
+       
         dense_results = self.coll.query(query_texts=[q], n_results=max(8, k))
 
         # Extract data safely
