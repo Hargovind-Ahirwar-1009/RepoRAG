@@ -51,12 +51,12 @@ def get_commit(root: Path) -> str:
     except Exception:
         return "HEAD"
 
-# --- CHANGE STARTS HERE ---
+
 def build_index(repo_url_or_path: str, collection_name: str, embedding_backend: str = "local", api_key: Optional[str] = None):
     client = chromadb.PersistentClient(path=str(INDEX_DIR))
 
     if embedding_backend == "openai":
-        # Prioritize the API key from the UI, fall back to environment variable
+        
         final_api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not final_api_key:
             raise RuntimeError("OpenAI API key not found. Please provide it in the UI or set the OPENAI_API_KEY environment variable.")
@@ -66,7 +66,7 @@ def build_index(repo_url_or_path: str, collection_name: str, embedding_backend: 
         )
     else:
         ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    # --- CHANGE ENDS HERE ---
+  
 
     coll = client.get_or_create_collection(name=collection_name, embedding_function=ef, metadata={"hnsw:space":"cosine"})
 
